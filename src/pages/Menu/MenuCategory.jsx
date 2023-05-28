@@ -13,7 +13,7 @@ const MenuCategory = ({ items, title, coverImg }) => {
 
             <div className='grid grid-cols-1 lg:grid-cols-2 gap-8 container mx-auto'>
                 {
-                    items.map((menuItem, index) => <MenuItem key={index} menuItem={menuItem} />)
+                    items.map((menuItem) => <MenuItem key={menuItem._id} menuItem={menuItem} />)
                 }
             </div>
             <div className='text-center'>
