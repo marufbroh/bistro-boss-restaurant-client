@@ -6,9 +6,14 @@ import 'react-tabs/style/react-tabs.css';
 import useMenu from '../../hooks/useMenu';
 import FoodCard from '../../components/FoodCard';
 import OrderTab from './OrderTab';
+import { useParams } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 
 const Order = () => {
-    const [tabIndex, setTabIndex] = useState(0);
+    const categories = ['salad', 'pizza', 'soup', 'dessert', 'drinks']
+    const { category } = useParams();
+    const initialIndex = categories.indexOf(category)
+    const [tabIndex, setTabIndex] = useState(initialIndex);
     const [menu] = useMenu();
 
     const dessert = menu.filter(item => item.category === 'dessert');
@@ -19,6 +24,9 @@ const Order = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>Bistro Boss | Order Food</title>
+            </Helmet>
             <Cover img={orderCover} title={"OUR SHOP"} subTitle={"Would you like to try a dish?"} />
             <div className='container mx-auto my-12'>
                 <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
@@ -30,19 +38,19 @@ const Order = () => {
                         <Tab className="tab tab-lifted">Drinks</Tab>
                     </TabList>
                     <TabPanel>
-                        <OrderTab items={salad}/>
+                        <OrderTab items={salad} />
                     </TabPanel>
                     <TabPanel>
-                        <OrderTab items={pizza}/>
+                        <OrderTab items={pizza} />
                     </TabPanel>
                     <TabPanel>
-                        <OrderTab items={soup}/>
+                        <OrderTab items={soup} />
                     </TabPanel>
                     <TabPanel>
-                        <OrderTab items={dessert}/>
+                        <OrderTab items={dessert} />
                     </TabPanel>
                     <TabPanel>
-                        <OrderTab items={drinks}/>
+                        <OrderTab items={drinks} />
                     </TabPanel>
 
                 </Tabs>
