@@ -2,7 +2,7 @@ import React from 'react';
 import FoodCard from '../../components/FoodCard';
 
 const OrderTab = ({items}) => {
-    console.log(items);
+    // console.log(items);
     return (
         <div className={"grid grid-cols-1 lg:grid-cols-3 gap-4"}>
             {
