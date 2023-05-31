@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import {FaShoppingCart  } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../providers/AuthProvider';
 
@@ -7,19 +8,23 @@ const Navbar = () => {
 
     const handleLogout = () => {
         logOut()
-        .then(() => {})
-        .catch(error => {
-            console.log(error);
-        })
+            .then(() => { })
+            .catch(error => {
+                console.log(error);
+            })
     }
 
     const navOptions = <>
         <li><Link to={"/"}>Home</Link></li>
         <li><Link to={"/menu"}>Our Menu</Link></li>
         <li><Link to={"/order/salad"}>Order Food</Link></li>
+        <li><Link to={"/"} className="btn gap-2">
+        <FaShoppingCart/>
+                <div className="badge badge-secondary">+99</div>
+        </Link></li>
         {
-            user ? <button onClick={handleLogout} className="btn btn-ghost">Logout</button> : <><li><Link to={"/login"}>Login</Link></li>
-                <li><Link to={"/signup"}>Sign Up</Link></li></>
+            user ? <button onClick={handleLogout} className="btn btn-ghost">Logout</button> : <li><Link to={"/login"}>Login</Link></li>
+               
         }
         {/* <li tabIndex={0}>
             <a className="justify-between">
