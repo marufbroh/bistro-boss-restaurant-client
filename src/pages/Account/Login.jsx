@@ -94,7 +94,7 @@ const Login = () => {
                                     <button onClick={handleValidateCaptcha} className='btn btn-outline btn-xs mt-2' type='button'>Validate</button>
                                 </div>
                                 <div className="form-control mt-6">
-                                    <input disabled={disabled} type="submit" value={"login"} className="btn btn-primary" />
+                                    <input disabled={false} type="submit" value={"login"} className="btn btn-primary" />
                                 </div>
                             </form>
                             <p>New here? <Link className='hover:underline text-blue-600' to={"/signup"}>Create a New Account</Link></p>
