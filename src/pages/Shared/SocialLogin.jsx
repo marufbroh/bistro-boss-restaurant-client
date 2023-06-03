@@ -17,7 +17,7 @@ const SocialLogin = () => {
         googleSignIn()
             .then(result => {
                 const loggedInUser = result.user;
-                console.log(loggedInUser);
+                // console.log(loggedInUser);
                 const saveUser = { name: loggedInUser.displayName, email: loggedInUser.email }
                 fetch('http://localhost:5000/users', {
                     method: "POST",
@@ -26,7 +26,7 @@ const SocialLogin = () => {
                 })
                     .then(res => res.json())
                     .then(data => {
-                        console.log(data);
+                        // console.log(data);
                         // Swal.fire({
                         //     position: 'top-end',
                         //     icon: 'success',
