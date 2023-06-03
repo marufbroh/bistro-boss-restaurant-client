@@ -5,13 +5,14 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { Helmet } from 'react-helmet-async';
 import Swal from 'sweetalert2';
+import SocialLogin from '../Shared/SocialLogin';
 
 
 const SignUp = () => {
     const { createUser, updateUserProfile } = useContext(AuthContext)
     const [disabled, setDisabled] = useState(true);
     const captchaRef = useRef(null);
-const navigate = useNavigate()
+    const navigate = useNavigate()
     const { register, handleSubmit, reset, watch, formState: { errors } } = useForm();
 
     useEffect(() => {
@@ -37,20 +38,32 @@ const navigate = useNavigate()
                 console.log(user);
                 updateUserProfile(data.name, data.photoURL)
                     .then(() => {
-                        console.log("user profile updated");
-                        reset()
-                        Swal.fire({
-                            position: 'top-end',
-                            icon: 'success',
-                            title: 'Profile Updated',
-                            showConfirmButton: false,
-                            timer: 1500
+                        const saveUser = { name: data.name, email: data.email }
+                        fetch('http://localhost:5000/users', {
+                            method: "POST",
+                            headers: { "content-type": "application/json" },
+                            body: JSON.stringify(saveUser)
                         })
+                            .then(res => res.json())
+                            .then(data => {
+                                if (data.insertedId) {
+                                    reset()
+                                    Swal.fire({
+                                        position: 'top-end',
+                                        icon: 'success',
+                                        title: 'Profile Updated',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    })
+                                    navigate("/")
+                                }
+                            })
+
                     }).catch((error) => {
                         // An error occurred
                         console.log(error);
                     });
-                    navigate("/")
+
             })
             .catch(error => {
                 console.log(error);
@@ -114,6 +127,7 @@ const navigate = useNavigate()
                                 </div>
                             </form>
                             <p>Already Registered? <Link className='hover:underline text-blue-600' to={"/login"}>Go to login</Link></p>
+                            <SocialLogin />
                         </div>
                     </div>
                 </div>
