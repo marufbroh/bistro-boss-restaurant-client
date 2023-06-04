@@ -22,7 +22,7 @@ const Dashboard = () => {
                         {
                             isAdmin ? <>
                                 <li><Link><FaHome />Admin Home</Link></li>
-                                <li><Link><FaUtensils />Add Items</Link></li>
+                                <li><Link to={"/dashboard/additem"}><FaUtensils />Add an Items</Link></li>
                                 <li><Link><FaBars />Manage Items</Link></li>
                                 <li><Link><FaBook />Manage Bookings</Link></li>
                                 <li><Link to={"/dashboard/allusers"}><FaUsers />All Users</Link></li>
