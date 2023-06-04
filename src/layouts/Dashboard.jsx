@@ -1,9 +1,12 @@
 import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import { FaShoppingCart, FaWallet, FaCalendarAlt, FaHome, FaUtensils, FaBook, FaUsers, FaBars } from 'react-icons/fa';
+import useAdmin from '../hooks/useAdmin';
 
 const Dashboard = () => {
-    const isAdmin = true;
+    // const isAdmin = true;
+    const [isAdmin] = useAdmin();
+    
     return (
         <div className='container mx-auto border'>
             <div className="drawer drawer-mobile">
