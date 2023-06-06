@@ -4,8 +4,9 @@ import { useState } from 'react';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import { useEffect } from 'react';
 import useAuth from '../../hooks/useAuth';
+import Swal from 'sweetalert2';
 
-const CheckOutForm = ({ price }) => {
+const CheckOutForm = ({ price, cart }) => {
     const stripe = useStripe();
     const elements = useElements();
     const { user } = useAuth();
@@ -16,10 +17,12 @@ const CheckOutForm = ({ price }) => {
     const [transactionId, setTransactionId] = useState("");
 
     useEffect(() => {
-        axiosSecure.post("/create-payment-intent", { price })
-            .then(res => {
-                setClientSecret(res.data.clientSecret)
-            })
+        if (price > 0) {
+            axiosSecure.post("/create-payment-intent", { price })
+                .then(res => {
+                    setClientSecret(res.data.clientSecret)
+                })
+        }
     }, [axiosSecure, price])
 
     const handleSubmit = async (event) => {
@@ -68,7 +71,32 @@ const CheckOutForm = ({ price }) => {
         console.log(paymentIntent);
         setProcessing(false)
         if (paymentIntent.status === "succeeded") {
-            setTransactionId(paymentIntent.id)
+            setTransactionId(paymentIntent.id);
+            const payment = {
+                email: user?.email,
+                transactionId: paymentIntent.id,
+                price,
+                data: new Date(),
+                quantity: cart.length,
+                cartItems: cart.map(item => item._id),
+                menuItems: cart.map(item => item.menuItemId),
+                status: "service pending",
+                itemNames: cart.map(item => item.name)
+            };
+            axiosSecure.post("/payments", payment)
+                .then(res => {
+                    console.log(res.data);
+                    if (res.data.insertResult.insertedId) {
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'Payment added on database',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    }
+                })
+
         }
 
     }
